@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block title %}{{ child.name }}'s Dashboard{% endblock %}
+
+{% block content %}
+<div class="flex flex-col h-screen bg-gradient-to-b from-blue-200 to-purple-200 p-4 font-sans relative overflow-hidden">
+    <!-- Decorative Elements -->
+    <div class="absolute top-0 left-0 w-1/4 h-1/4 bg-yellow-300 rounded-full -translate-x-1/2 -translate-y-1/2"></div>
+    <div class="absolute bottom-0 right-0 w-1/3 h-1/3 bg-pink-300 rounded-full translate-x-1/2 translate-y-1/2"></div>
+    <div class="absolute top-1/4 right-1/4 w-1/6 h-1/6 bg-green-300 rounded-full"></div>
+    <div class="absolute bottom-1/4 left-1/4 w-1/5 h-1/5 bg-blue-300 rounded-full"></div>
+    <div class="absolute top-3/4 right-1/3 w-1/8 h-1/8 bg-red-300 rounded-full"></div>
+    <div class="absolute bottom-2/3 left-1/3 w-1/6 h-1/6 bg-orange-300 rounded-full"></div>
+
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row justify-between items-center mb-4 z-10">
+        <h1 class="text-3xl font-bold text-purple-700 mb-2 sm:mb-0">{{ child.name }}'s Tasks</h1>
+        <div class="flex flex-col sm:flex-row items-center">
+            <div id="coin-count" class="bg-yellow-400 text-purple-700 px-4 py-2 rounded-full text-2xl font-bold shadow-md mb-2 sm:mb-0 sm:mr-4">
+                {{ child.points }} coins
+            </div>
+            <a href="{{ url_for('view_rewards', child_id=child.id) }}" class="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded">
+                View Rewards
+            </a>
+        </div>
+    </div>
+
+    <main class="flex-1 flex flex-col z-10">
+        <div class="flex flex-col md:flex-row">
+            <!-- Task List -->
+            <div class="w-full md:w-1/2 pr-0 md:pr-4 mb-4 md:mb-0">
+                <div id="task-list" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {% for task in tasks %}
+                    <div class="task-card" draggable="true" data-task-id="{{ task.id }}">
+                        <div class="bg-white rounded-lg shadow-md p-4 cursor-move transition-all hover:scale-105 hover:shadow-xl border-4 border-dashed border-purple-300">
+                            <div class="flex flex-col items-center justify-center">
+                                <span class="mt-2 text-xl font-semibold text-gray-700">{{ task.title }}</span>
+                                <span class="text-sm text-gray-500">{{ task.points }} points</span>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Treasure Chest -->
+            <div class="w-full md:w-1/2 flex flex-col items-center justify-center relative">
+                <div id="treasure-chest" class="w-full max-w-xs h-64 bg-yellow-800 rounded-t-[40px] rounded-b-xl relative overflow-hidden border-8 border-yellow-900">
+                    <div class="absolute inset-x-6 top-6 bottom-20 bg-yellow-600 rounded-t-3xl"></div>
+                    <div class="absolute inset-x-20 top-20 h-12 bg-yellow-500 rounded-full"></div>
+                    <div class="absolute inset-x-0 bottom-0 h-20 bg-yellow-900 rounded-b-xl"></div>
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <span class="text-4xl font-bold text-yellow-100">Treasure Chest</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Completed Tasks -->
+        <div class="mt-4">
+            <div class="bg-white rounded-lg shadow-md p-4">
+                <h2 class="text-2xl font-bold text-purple-700 mb-2">Completed Tasks</h2>
+                <div id="completed-tasks">
+                    {% for task in completed_tasks %}
+                    <div class="flex items-center space-x-4 bg-gray-100 rounded-lg p-2 border-2 border-dashed border-purple-300 mb-2">
+                        <span class="text-xl font-semibold text-gray-700">{{ task.title }}</span>
+                        <span class="text-sm text-gray-500">{{ task.points }} points</span>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="mt-4 z-10">
+        <button id="finish-button" class="w-full bg-green-500 hover:bg-green-600 text-white text-4xl font-bold py-8 rounded-xl shadow-lg transform transition-transform hover:scale-105 border-4 border-green-600">
+            FINISHED!
+        </button>
+        <p class="text-center text-lg text-purple-700 mt-2 font-semibold">
+            Click this button when all tasks are in the treasure chest!
+        </p>
+    </footer>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/child-dashboard.js') }}"></script>
+{% endblock %}

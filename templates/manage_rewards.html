@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}Manage Rewards{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto bg-white rounded-xl shadow-md overflow-hidden">
+    <div class="p-8">
+        <h1 class="text-2xl font-bold mb-4">Manage Rewards</h1>
+        
+        <form method="POST" class="mb-8">
+            <div class="mb-4">
+                <label for="title" class="block text-gray-700 text-sm font-bold mb-2">Reward Title</label>
+                <input type="text" id="title" name="title" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+            </div>
+            <div class="mb-4">
+                <label for="description" class="block text-gray-700 text-sm font-bold mb-2">Description</label>
+                <textarea id="description" name="description" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" rows="3"></textarea>
+            </div>
+            <div class="mb-4">
+                <label for="points_cost" class="block text-gray-700 text-sm font-bold mb-2">Points Cost</label>
+                <input type="number" id="points_cost" name="points_cost" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+            </div>
+            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                Add Reward
+            </button>
+        </form>
+        
+        <h2 class="text-xl font-semibold mb-2">Existing Rewards</h2>
+        {% if rewards %}
+            <ul class="list-disc pl-5">
+                {% for reward in rewards %}
+                    <li>{{ reward.title }} ({{ reward.points_cost }} points) - {{ reward.description }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No rewards have been added yet.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

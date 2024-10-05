@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>{% block title %}Child Task Management{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/tailwind.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col">
+    <header class="bg-white shadow-md">
+        <nav class="container mx-auto px-4 py-3">
+            <ul class="flex flex-col sm:flex-row justify-between items-center">
+                <li class="mb-2 sm:mb-0"><a href="{{ url_for('index') }}" class="text-lg font-semibold text-gray-800">Child Task Management</a></li>
+                <li>
+                    <ul class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4">
+                        {% if current_user.is_authenticated %}
+                            <li><a href="{{ url_for('dashboard') }}" class="text-blue-500 hover:text-blue-700">Dashboard</a></li>
+                            <li><a href="{{ url_for('create_child_profile') }}" class="text-blue-500 hover:text-blue-700">Create Child Profile</a></li>
+                            <li><a href="{{ url_for('assign_task') }}" class="text-blue-500 hover:text-blue-700">Assign Task</a></li>
+                            <li><a href="{{ url_for('logout') }}" class="text-red-500 hover:text-red-700">Logout</a></li>
+                        {% else %}
+                            <li><a href="{{ url_for('login') }}" class="text-blue-500 hover:text-blue-700">Login</a></li>
+                        {% endif %}
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <main class="flex-grow container mx-auto p-4">
+        {% block content %}{% endblock %}
+    </main>
+    <footer class="bg-white shadow-md mt-8">
+        <div class="container mx-auto px-4 py-3 text-center text-gray-600">
+            &copy; 2024 Child Task Management. All rights reserved.
+        </div>
+    </footer>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

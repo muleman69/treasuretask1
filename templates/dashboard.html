@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto bg-white rounded-xl shadow-md overflow-hidden">
+    <div class="p-8">
+        <h1 class="text-2xl font-bold mb-4">Welcome, {{ current_user.email }}</h1>
+        
+        <div class="mb-8">
+            <h2 class="text-xl font-semibold mb-2">Your Children</h2>
+            {% if children %}
+                <ul class="space-y-4">
+                    {% for child in children %}
+                        <li class="bg-gray-100 p-4 rounded-lg">
+                            <div class="flex justify-between items-center">
+                                <span class="text-lg font-medium">{{ child.name }} (Age: {{ child.age }}, ID: {{ child.id }})</span>
+                                <div>
+                                    <a href="{{ url_for('child_dashboard', child_id=child.id) }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2">
+                                        View Dashboard
+                                    </a>
+                                    <button class="reset-tasks-btn bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded" data-child-id="{{ child.id }}">
+                                        Reset Tasks
+                                    </button>
+                                </div>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>You haven't added any children yet.</p>
+            {% endif %}
+        </div>
+        
+        <div class="mb-8">
+            <h2 class="text-xl font-semibold mb-2">Assigned Tasks</h2>
+            {% if tasks %}
+                <ul class="list-disc pl-5">
+                    {% for task in tasks %}
+                        <li>{{ task.title }} ({{ task.points }} points) - Assigned to {{ task.child.name }}</li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No tasks have been assigned yet.</p>
+            {% endif %}
+        </div>
+        
+        <div class="flex space-x-4">
+            <a href="{{ url_for('create_child_profile') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                Create Child Profile
+            </a>
+            <a href="{{ url_for('assign_task') }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                Assign Task
+            </a>
+            <a href="{{ url_for('manage_rewards') }}" class="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded">
+                Manage Rewards
+            </a>
+        </div>
+    </div>
+</div>
+
+<div id="reset-tasks-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden">
+    <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+        <div class="mt-3 text-center">
+            <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-yellow-100">
+                <svg class="h-6 w-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                </svg>
+            </div>
+            <h3 class="text-lg leading-6 font-medium text-gray-900 mt-2">Reset Tasks</h3>
+            <div class="mt-2 px-7 py-3">
+                <p class="text-sm text-gray-500">Are you sure you want to reset all tasks for this child?</p>
+            </div>
+            <div class="items-center px-4 py-3">
+                <button id="reset-tasks-confirm" class="px-4 py-2 bg-red-500 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-300 mb-2">
+                    Reset Tasks
+                </button>
+                <button id="reset-tasks-cancel" class="px-4 py-2 bg-gray-500 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-300">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const resetButtons = document.querySelectorAll('.reset-tasks-btn');
+    const resetTasksModal = document.getElementById('reset-tasks-modal');
+    const resetTasksConfirm = document.getElementById('reset-tasks-confirm');
+    const resetTasksCancel = document.getElementById('reset-tasks-cancel');
+
+    resetButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const childId = this.dataset.childId;
+            resetTasksModal.classList.remove('hidden');
+            
+            resetTasksConfirm.onclick = function() {
+                resetTasks(childId);
+            };
+            
+            resetTasksCancel.onclick = function() {
+                resetTasksModal.classList.add('hidden');
+            };
+        });
+    });
+
+    function resetTasks(childId) {
+        fetch(`/reset_tasks/${childId}`, {
+            method: 'POST',
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Tasks have been reset successfully.');
+                location.reload();
+            } else {
+                alert('Failed to reset tasks. Please try again.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred. Please try again.');
+        })
+        .finally(() => {
+            resetTasksModal.classList.add('hidden');
+        });
+    }
+});
+</script>
+{% endblock %}

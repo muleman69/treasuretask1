@@ -1,0 +1,72 @@
+/* Responsive CSS */
+
+/* Base styles */
+html {
+  font-size: 16px;
+}
+
+body {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+/* Container */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  padding: 0 1rem;
+}
+
+/* Responsive typography */
+h1 { font-size: 2rem; }
+h2 { font-size: 1.75rem; }
+h3 { font-size: 1.5rem; }
+h4 { font-size: 1.25rem; }
+
+/* Responsive spacing */
+.m-4 { margin: 1rem; }
+.p-4 { padding: 1rem; }
+
+/* Media queries */
+@media (max-width: 768px) {
+  html {
+    font-size: 14px;
+  }
+
+  .container {
+    padding: 0 0.5rem;
+  }
+
+  /* Adjust layout for smaller screens */
+  .flex-col-mobile {
+    flex-direction: column;
+  }
+
+  .w-full-mobile {
+    width: 100%;
+  }
+
+  /* Increase touch target size */
+  button, 
+  input[type="submit"],
+  .clickable {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* iPad-specific styles */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .container {
+    max-width: 90%;
+  }
+
+  /* Adjust layout for iPad screens */
+  .grid-cols-2 {
+    grid-template-columns: 1fr;
+  }
+
+  .w-1/2 {
+    width: 100%;
+  }
+}

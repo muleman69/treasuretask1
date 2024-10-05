@@ -1,0 +1,117 @@
+Hello Replit Agent,**
+
+I need your assistance in setting up a new Next.js project with TypeScript support. I have a series of `.tsx` files that have been provided by V0, and I would like to integrate them into the project. Here's what I need:
+
+#### **Project Overview:**
+
+- **Framework**: Next.js with TypeScript
+- **Styling**: Tailwind CSS for styling
+- **UI Components**: Radix UI components
+- **Functionality**:
+  - Drag-and-drop with `react-beautiful-dnd`
+  - Icons with `lucide-react`
+
+#### **Specific Requirements:**
+
+1. **Initialize a New Next.js Project:**
+
+   - Create a new Next.js project with TypeScript support.
+   - Ensure the project is set up to work with Replit's environment.
+
+2. **Set Up Tailwind CSS:**
+
+   - Install Tailwind CSS along with `postcss` and `autoprefixer`.
+   - Configure Tailwind according to the [official Next.js guide](https://tailwindcss.com/docs/guides/nextjs).
+   - Ensure that `globals.css` includes the necessary Tailwind directives:
+     ```css
+     @tailwind base;
+     @tailwind components;
+     @tailwind utilities;
+     ```
+
+3. **Install Necessary Dependencies:**
+
+   - Install the following packages:
+
+     ```bash
+     npm install @radix-ui/react-select @radix-ui/react-dialog @radix-ui/react-label @radix-ui/react-progress @radix-ui/react-avatar react-beautiful-dnd lucide-react
+     ```
+
+   - Ensure all dependencies are properly saved in `package.json`.
+
+4. **Create the Following `.tsx` Files in the Appropriate Directories:**
+
+   - In the `pages` directory or appropriate component directories, create these files:
+
+     - `account-creation.tsx`
+     - `create-child-profile.tsx`
+     - `assign-tasks.tsx`
+     - `setup-rewards.tsx`
+     - `parent-dashboard.tsx`
+     - `child-profile-selection.tsx`
+     - `child-dashboard.tsx`
+     - `redeem-rewards.tsx`
+
+   - Place any shared components or UI elements in a `components` directory.
+
+5. **Integrate Provided Code:**
+
+   - For each `.tsx` file, I have code provided by V0.
+   - Please integrate this code into the project, ensuring that:
+
+     - All import statements are adjusted to match the project structure.
+     - For example, change imports like:
+       ```typescript
+       import { Button } from "@/components/ui/button"
+       ```
+       to:
+       ```typescript
+       import { Button } from "../components/ui/button"
+       ```
+     - All components, utilities, and assets are correctly referenced.
+
+6. **Set Up Routing:**
+
+   - Configure Next.js routing according to conventions.
+   - For dynamic routes (e.g., child dashboards), use square bracket notation.
+     - For example, for child dashboards, use `pages/child-dashboard/[childId].tsx`.
+
+7. **Configure `_app.tsx` and `_document.tsx`:**
+
+   - Ensure that global styles are imported in `_app.tsx`:
+     ```typescript
+     import '../styles/globals.css'
+     import type { AppProps } from 'next/app'
+
+     function MyApp({ Component, pageProps }: AppProps) {
+       return <Component {...pageProps} />
+     }
+
+     export default MyApp
+     ```
+   - Set up `_document.tsx` if necessary for Tailwind CSS and Radix UI compatibility.
+
+8. **Set Up Any Necessary Configurations:**
+
+   - Configure `next.config.js` if needed.
+   - Ensure that any environment variables or settings are correctly handled.
+
+9. **Verify and Test the Setup:**
+
+   - Ensure that the project builds successfully without errors.
+   - Run the development server and verify that each page renders as expected.
+   - Provide any necessary adjustments to make the project function correctly.
+
+10. **Additional Instructions:**
+
+    - **Handling Assets**: If there are images, fonts, or other assets referenced in the code, ensure they are placed in the appropriate `public` or `assets` directories.
+    - **ESLint and Prettier**: Set up ESLint and Prettier for code quality if possible.
+    - **Typescript Config**: Ensure `tsconfig.json` is properly configured for Next.js and TypeScript.
+
+#### **Summary:**
+
+- The goal is to have a fully functional Next.js project set up in Replit, with all the provided `.tsx` files integrated.
+- The project should use Tailwind CSS for styling and include all the specified dependencies.
+- Adjust any import paths and configurations as necessary to make the project work.
+
+Thank you for your assistance!
